@@ -1,0 +1,17 @@
+{
+  "name": "glonass",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "three": "^0.174.0",
+    "vite": "^6.2.0"
+  }
+}
