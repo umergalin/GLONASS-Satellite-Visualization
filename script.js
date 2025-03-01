@@ -1,28 +1,61 @@
-import * as THREE from 'three'
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-const canvas = document.querySelector('canvas.webgl')
+// Orthographic camera update
+function reportWindowSize() {
+    const camSize = 1; // Visible area (how big scene can fit in cam)
+    let aspectRatio = window.innerWidth / window.innerHeight;
+    camera.left = camSize * aspectRatio / -2;
+    camera.right = camSize * aspectRatio / 2;
+    camera.top = camSize / 2;
+    camera.bottom = camSize / -2;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+window.onresize = reportWindowSize;
+
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffffff); 
 
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-const mesh = new THREE.Mesh(geometry, material)
+const camera = new THREE.OrthographicCamera();
+scene.add(camera);
+reportWindowSize();
+camera.position.set(0, 3, 0);
 
-scene.add(mesh)
+const controls = new OrbitControls(camera, renderer.domElement);
 
-const sizes = {
-    width: 800,
-    height: 600
+function loadModels() {
+    const loader = new GLTFLoader();
+
+    loader.load('./models/earth.glb', function (gltf) {
+        const textureLoader = new THREE.TextureLoader();
+
+        const earthMaterial = new THREE.MeshBasicMaterial({ map: textureLoader.load('./models/earth_texture.jpg'), });
+
+        gltf.scene.traverse((child) => {
+            if (child.isMesh) {
+                child.material = earthMaterial;
+            }
+        });
+
+        scene.add(gltf.scene);
+    }, undefined, function (error) {
+        console.error(error);
+    });
 }
 
-const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
-})
-renderer.setSize(sizes.width, sizes.height)
+function update() {
+    controls.update();
+    renderer.render(scene, camera);
+}
 
-// Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
-camera.position.z = 3
-scene.add(camera);
-
-renderer.render(scene, camera);
+loadModels();
+controls.update();
+renderer.setAnimationLoop(update);
