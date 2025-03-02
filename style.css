@@ -20,6 +20,7 @@ body {
     position: absolute;
     pointer-events: none;
     z-index: 8;
+    opacity: 0.3;
 }
 
 #threeContainer {
@@ -29,4 +30,12 @@ body {
 
 canvas {
     display: block;
+}
+
+#ratate-360-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 60px) scaleY(0.8);
+    opacity: 0.3;;
 }

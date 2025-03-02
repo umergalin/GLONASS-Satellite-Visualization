@@ -27,11 +27,6 @@ const timer = new Timer();
 let renderDeltaTime = 0;
 
 const starCanvas = document.getElementById("drawsContainer").querySelector("canvas");
-// drawsCanvas.width = window.innerWidth;
-// drawsCanvas.height = window.innerHeight;
-// document.getElementById("drawsContainer").append(drawsCanvas);
-
-
 
 function reportWindowSize() {
     const cameraSize = sceneSize + cameraOffset; // Visible area (how big scene can fit in cam)
@@ -48,7 +43,7 @@ function reportWindowSize() {
     starCanvas.height = window.innerHeight;
 
     const starCanvasCtx = starCanvas.getContext("2d");
-    starCanvasCtx.fillStyle = gray;
+    starCanvasCtx.fillStyle = orange;
     starCanvasCtx.font = "24px Arial";
 }
 window.onresize = reportWindowSize;
@@ -74,8 +69,8 @@ camera.lookAt(0, 0, 0);
 
 
 const controls = new OrbitControls(camera, renderer.domElement);
-// controls.enablePan = false; отлючил для отладки
-// controls.enableZoom = false;
+controls.enablePan = false; 
+controls.enableZoom = false;
 
 let satelliteModel = null;
 
@@ -210,7 +205,7 @@ function createStarSphere() {
     }
 
     const ctx = starCanvas.getContext("2d");
-    ctx.fillStyle = gray;
+    ctx.fillStyle = orange;
     ctx.font = "24px Arial";
 
     const updateStars = function () {
