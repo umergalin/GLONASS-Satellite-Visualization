@@ -35,7 +35,7 @@ canvas {
 #ratate-360-icon {
     position: absolute;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, 60px) scaleY(0.8);
+    top: 59%;
+    transform: translateX(-50%) scaleY(0.8);
     opacity: 0.3;;
 }
